@@ -63,14 +63,15 @@ interface Props {
 }
 
 export function Statistics({ config, records }: Props) {
-  const hasSemDates = config.semesterStart && config.semesterEnd;
-  const semStart = hasSemDates ? new Date(config.semesterStart) : null;
-  const semEnd = hasSemDates ? new Date(config.semesterEnd) : null;
+  const semStart = config.semesterStart ? new Date(config.semesterStart) : null;
+  const semEnd = config.semesterEnd ? new Date(config.semesterEnd) : null;
 
   const semRecords = records.filter(r => {
-    if (!semStart || !semEnd) return true;
+    if (!semStart && !semEnd) return true;
     const d = new Date(r.date);
-    return d >= semStart && d <= semEnd;
+    if (semStart && d < semStart) return false;
+    if (semEnd && d > semEnd) return false;
+    return true;
   });
 
   const attended = semRecords.filter(r => r.status === 'attended').length;
@@ -111,18 +112,20 @@ export function Statistics({ config, records }: Props) {
   return (
     <div className="min-h-full bg-background pb-4">
       {/* Header */}
-      <div className="bg-primary text-primary-foreground px-4 pt-10 pb-6">
+      <div className="bg-gradient-to-br from-slate-950 via-orange-600 to-orange-500 text-primary-foreground px-4 pt-10 pb-6 shadow-lg shadow-orange-500/20">
         <div className="max-w-md mx-auto">
           <h1 className="text-primary-foreground">Attendance Statistics</h1>
           <p className="text-sm opacity-70 mt-1">
-            {hasSemDates ? `${config.semesterStart} – ${config.semesterEnd}` : 'All time'}
+            {config.semesterStart || config.semesterEnd
+              ? `${config.semesterStart || 'Start not set'}${config.semesterEnd ? ` – ${config.semesterEnd}` : ''}`
+              : 'All time'}
           </p>
         </div>
       </div>
 
       <div className="max-w-md mx-auto px-4 mt-5 space-y-5">
         {/* Overall card */}
-        <div className="bg-card border border-border rounded-xl p-5">
+        <div className="bg-card/90 backdrop-blur-sm border border-border rounded-xl p-5 shadow-sm">
           <h2 className="text-muted-foreground text-sm mb-3">Overall Attendance</h2>
           <div className="flex items-end gap-4">
             <div>
@@ -155,7 +158,7 @@ export function Statistics({ config, records }: Props) {
 
         {/* Day chart */}
         {dayData.length > 0 && (
-          <div className="bg-card border border-border rounded-xl p-4">
+          <div className="bg-card/90 backdrop-blur-sm border border-border rounded-xl p-4 shadow-sm">
             <h2 className="text-muted-foreground text-sm mb-1">By Day of Week</h2>
             <div className="flex items-center gap-3 mb-3">
               <span className="flex items-center gap-1 text-xs text-muted-foreground"><span className="w-2.5 h-2.5 rounded-sm inline-block bg-green-500" /> Attended</span>
@@ -173,7 +176,7 @@ export function Statistics({ config, records }: Props) {
           ) : (
             <div className="space-y-3">
               {moduleStats.map(mod => (
-                <div key={mod.id} className="bg-card border border-border rounded-xl p-4">
+                <div key={mod.id} className="bg-card/90 backdrop-blur-sm border border-border rounded-xl p-4 shadow-sm">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2.5 min-w-0">
                       <div className="w-3 h-3 rounded-full flex-shrink-0 mt-0.5" style={{ backgroundColor: mod.color }} />

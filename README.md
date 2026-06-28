@@ -28,4 +28,15 @@
   4. Deploy the Vite app as a static site.
 
   If the Supabase variables are omitted, the app still runs with browser-only storage.
+
+  ## GitHub Actions Android debug build
+
+  The workflow in [.github/workflows/android-release.yml](.github/workflows/android-release.yml) builds an unsigned debug APK on push to `main` or manually from GitHub Actions.
+
+  ### Required GitHub Secrets
+
+  - `VITE_SUPABASE_URL`
+  - `VITE_SUPABASE_ANON_KEY`
+
+  The generated APK is uploaded as a GitHub Actions artifact.
   

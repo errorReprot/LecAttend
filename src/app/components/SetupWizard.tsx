@@ -167,6 +167,7 @@ export function SetupWizard({ onComplete }: Props) {
   };
 
   const datesValid = !semesterStart || !semesterEnd || semesterStart < semesterEnd;
+  const semesterReady = Boolean(semesterStart);
   const canProceed2 = modules.length > 0;
 
   const csvReady = parseResult && parseResult.modules.length > 0;
@@ -180,10 +181,10 @@ export function SetupWizard({ onComplete }: Props) {
   return (
     <div className="min-h-full bg-background flex flex-col">
       {/* Header */}
-      <div className="bg-primary text-primary-foreground px-4 pt-10 pb-6">
+      <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-slate-950 text-primary-foreground px-4 pt-10 pb-6 shadow-lg shadow-orange-500/20">
         <div className="max-w-md mx-auto">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
+            <div className="w-9 h-9 rounded-full bg-white/15 backdrop-blur-sm border border-white/15 flex items-center justify-center">
               <GraduationCap size={18} />
             </div>
             <span className="opacity-80 text-sm">Attendance Tracker Setup</span>
@@ -191,7 +192,7 @@ export function SetupWizard({ onComplete }: Props) {
           <h1 className="text-primary-foreground">Step {step} of {totalSteps}: {stepLabels[step]}</h1>
           <div className="flex gap-1.5 mt-3">
             {Array.from({ length: totalSteps }, (_, i) => (
-              <div key={i} className={`h-1 rounded-full flex-1 transition-all ${i < step ? 'bg-white' : 'bg-white/30'}`} />
+              <div key={i} className={`h-1 rounded-full flex-1 transition-all ${i < step ? 'bg-white shadow-[0_0_12px_rgba(255,255,255,0.45)]' : 'bg-white/30'}`} />
             ))}
           </div>
         </div>
@@ -259,7 +260,7 @@ export function SetupWizard({ onComplete }: Props) {
 
               <button
                 onClick={() => setStep(2)}
-                disabled={!datesValid}
+                disabled={!datesValid || !semesterReady}
                 className="w-full py-3 bg-primary text-primary-foreground rounded-xl flex items-center justify-center gap-2 disabled:opacity-40"
               >
                 Continue <ChevronRight size={18} />

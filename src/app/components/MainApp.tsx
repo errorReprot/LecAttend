@@ -16,15 +16,16 @@ interface Props {
   onUpdateConfig: (c: AppConfig) => void;
   onUpdateNotes: (notes: Note[]) => void;
   onReset: () => void;
+  theme: 'light' | 'dark';
 }
 
 type Tab = 'today' | 'week' | 'notes' | 'stats' | 'settings';
 
-export function MainApp({ config, records, notes, onUpdateRecords, onUpdateConfig, onUpdateNotes, onReset }: Props) {
+export function MainApp({ config, records, notes, onUpdateRecords, onUpdateConfig, onUpdateNotes, onReset, theme }: Props) {
   const [tab, setTab] = useState<Tab>('today');
 
   return (
-    <div className="size-full flex flex-col bg-background">
+    <div className={`size-full flex flex-col bg-background ${theme === 'dark' ? 'text-slate-100' : 'text-slate-900'}`}>
       <div className="flex-1 overflow-auto">
         {tab === 'today' && (
           <Dashboard config={config} records={records} onUpdateRecords={onUpdateRecords} />
@@ -42,7 +43,7 @@ export function MainApp({ config, records, notes, onUpdateRecords, onUpdateConfi
       </div>
 
       {/* Bottom navigation */}
-      <nav className="flex-shrink-0 border-t border-border bg-background safe-area-pb">
+      <nav className="flex-shrink-0 border-t border-border bg-card/85 backdrop-blur-xl safe-area-pb">
         <div className="flex max-w-md mx-auto">
           <NavItem
             icon={<CalendarDays size={22} />}
@@ -94,7 +95,7 @@ function NavItem({
     >
       {icon}
       <span className="text-xs">{label}</span>
-      {active && <div className="absolute bottom-0 w-1 h-1 bg-primary rounded-full" />}
+      {active && <div className="absolute bottom-0 w-1.5 h-1.5 bg-primary rounded-full shadow-[0_0_12px_rgba(249,115,22,0.8)]" />}
     </button>
   );
 }

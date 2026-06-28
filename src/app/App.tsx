@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Toaster } from 'sonner';
+import { MoonStar, SunMedium } from 'lucide-react';
 import { SetupWizard } from './components/SetupWizard';
 import { MainApp } from './components/MainApp';
 import type { AppConfig, AttendanceRecord } from './types';
@@ -10,6 +11,9 @@ const CONFIG_KEY = 'att_config';
 const RECORDS_KEY = 'att_records';
 const NOTES_KEY = 'att_notes';
 const DEVICE_ID_KEY = 'att_device_id';
+const THEME_KEY = 'att_theme';
+
+type Theme = 'light' | 'dark';
 
 type StoredState = {
   config: AppConfig | null;
@@ -81,6 +85,17 @@ export default function App() {
   const [notes, setNotes] = useState<Note[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [deviceId] = useState(() => getDeviceId());
+  const [theme, setTheme] = useState<Theme>(() => {
+    const saved = localStorage.getItem(THEME_KEY);
+    return saved === 'dark' ? 'dark' : 'light';
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    localStorage.setItem(THEME_KEY, theme);
+  }, [theme]);
+
+  const themeLabel = useMemo(() => (theme === 'dark' ? 'Light mode' : 'Dark mode'), [theme]);
 
   useEffect(() => {
     let active = true;
@@ -151,7 +166,16 @@ export default function App() {
   }
 
   return (
-    <div className="size-full">
+    <div className="size-full relative">
+      <button
+        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+        className="fixed top-4 right-4 z-50 inline-flex items-center gap-2 rounded-full border border-border bg-card/90 px-3 py-2 text-xs text-foreground shadow-lg backdrop-blur-md transition-colors hover:border-primary/40"
+        aria-label={themeLabel}
+        title={themeLabel}
+      >
+        {theme === 'dark' ? <SunMedium size={14} /> : <MoonStar size={14} />}
+        <span>{themeLabel}</span>
+      </button>
       {!config ? (
         <SetupWizard onComplete={handleConfig} />
       ) : (
@@ -163,6 +187,7 @@ export default function App() {
           onUpdateConfig={handleConfig}
           onUpdateNotes={handleNotes}
           onReset={handleReset}
+          theme={theme}
         />
       )}
       <Toaster position="top-center" richColors />

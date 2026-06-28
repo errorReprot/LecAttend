@@ -17,7 +17,7 @@ export interface LectureCardProps {
 
 export function LectureCard({ name, code, color, startTime, endTime, room, status, isExtra, onMark, onRemove }: LectureCardProps) {
   return (
-    <div className="bg-card rounded-xl border border-border overflow-hidden shadow-sm">
+    <div className="bg-card/95 backdrop-blur-sm rounded-xl border border-border overflow-hidden shadow-sm transition-shadow hover:shadow-md">
       <div className="flex">
         <div className="w-1 flex-shrink-0" style={{ backgroundColor: color }} />
         <div className="flex-1 p-4">
@@ -26,7 +26,7 @@ export function LectureCard({ name, code, color, startTime, endTime, room, statu
               <div className="flex items-center gap-2 flex-wrap">
                 <h4 className="text-foreground truncate">{name}</h4>
                 {isExtra && (
-                  <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full flex-shrink-0">Extra</span>
+                  <span className="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full flex-shrink-0 dark:bg-amber-500/15 dark:text-amber-200">Extra</span>
                 )}
               </div>
               {code && <p className="text-sm text-muted-foreground">{code}</p>}
@@ -49,9 +49,9 @@ export function LectureCard({ name, code, color, startTime, endTime, room, statu
 
           {status && (
             <div className={`mt-2 mb-3 text-xs flex items-center gap-1.5 ${
-              status === 'attended' ? 'text-green-600' :
-              status === 'missed' ? 'text-red-500' :
-              'text-yellow-600'
+              status === 'attended' ? 'text-green-600 dark:text-green-400' :
+              status === 'missed' ? 'text-red-500 dark:text-red-400' :
+              'text-yellow-700 dark:text-yellow-400'
             }`}>
               {status === 'attended' && <CheckCircle2 size={12} />}
               {status === 'missed' && <XCircle size={12} />}
@@ -63,16 +63,16 @@ export function LectureCard({ name, code, color, startTime, endTime, room, statu
           <div className="flex gap-2 flex-wrap mt-2">
             <StatusBtn active={status === 'attended'} onClick={() => onMark('attended')}
               icon={<CheckCircle2 size={13} />} label="Attended"
-              activeClass="bg-green-500 text-white border-green-500"
-              inactiveClass="border-green-200 text-green-700 hover:bg-green-50" />
+              activeClass="bg-green-500 text-white border-green-500 shadow-sm"
+              inactiveClass="border-green-200 text-green-700 hover:bg-green-50 dark:border-green-500/30 dark:text-green-300 dark:hover:bg-green-500/10" />
             <StatusBtn active={status === 'missed'} onClick={() => onMark('missed')}
               icon={<XCircle size={13} />} label="Missed"
-              activeClass="bg-red-500 text-white border-red-500"
-              inactiveClass="border-red-200 text-red-600 hover:bg-red-50" />
+              activeClass="bg-red-500 text-white border-red-500 shadow-sm"
+              inactiveClass="border-red-200 text-red-600 hover:bg-red-50 dark:border-red-500/30 dark:text-red-300 dark:hover:bg-red-500/10" />
             <StatusBtn active={status === 'no_lecture'} onClick={() => onMark('no_lecture')}
               icon={<MinusCircle size={13} />} label="No Lecture"
-              activeClass="bg-yellow-400 text-yellow-900 border-yellow-400"
-              inactiveClass="border-yellow-200 text-yellow-700 hover:bg-yellow-50" />
+              activeClass="bg-yellow-400 text-yellow-900 border-yellow-400 shadow-sm"
+              inactiveClass="border-yellow-200 text-yellow-700 hover:bg-yellow-50 dark:border-yellow-500/30 dark:text-yellow-300 dark:hover:bg-yellow-500/10" />
           </div>
         </div>
       </div>

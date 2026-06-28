@@ -63,7 +63,7 @@ export function NotesView({ notes, onUpdateNotes }: Props) {
 
   return (
     <div className="min-h-full bg-background pb-4">
-      <div className="bg-primary text-primary-foreground px-4 pt-10 pb-6">
+      <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-slate-950 text-primary-foreground px-4 pt-10 pb-6 shadow-lg shadow-orange-500/20">
         <div className="max-w-md mx-auto flex items-center justify-between">
           <div>
             <h1 className="text-primary-foreground">Notes</h1>
@@ -71,7 +71,7 @@ export function NotesView({ notes, onUpdateNotes }: Props) {
           </div>
           <button
             onClick={addNote}
-            className="flex items-center gap-1.5 bg-white/20 hover:bg-white/30 px-3 py-2 rounded-lg text-sm transition-colors"
+            className="flex items-center gap-1.5 bg-white/15 hover:bg-white/25 px-3 py-2 rounded-lg text-sm transition-colors backdrop-blur-sm border border-white/15"
           >
             <Plus size={16} /> New note
           </button>
@@ -86,21 +86,21 @@ export function NotesView({ notes, onUpdateNotes }: Props) {
             <p className="text-sm mt-1 opacity-60">Tap "New note" to add reminders, to-dos, or anything else.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3">
             {notes.map(note => (
               <button
                 key={note.id}
                 onClick={() => openEdit(note)}
-                className="text-left rounded-xl p-3.5 shadow-sm border border-black/5 min-h-[100px] flex flex-col"
+                className="text-left rounded-xl p-3.5 shadow-sm border border-black/5 min-h-[100px] flex flex-col transition-transform hover:-translate-y-0.5"
                 style={{ backgroundColor: note.color }}
               >
                 {note.title && (
-                  <p className="text-sm text-gray-800 mb-1 truncate" style={{ fontWeight: 600 }}>{note.title}</p>
+                  <p className="text-sm text-gray-900 dark:text-gray-100 mb-1 truncate" style={{ fontWeight: 600 }}>{note.title}</p>
                 )}
-                <p className="text-xs text-gray-700 flex-1 line-clamp-4 whitespace-pre-wrap">
+                <p className="text-xs text-gray-700 dark:text-gray-200 flex-1 line-clamp-4 whitespace-pre-wrap">
                   {note.content || <span className="italic opacity-50">Empty note</span>}
                 </p>
-                <p className="text-xs text-gray-500 mt-2">
+                <p className="text-xs text-gray-600 dark:text-gray-300 mt-2">
                   {new Date(note.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                 </p>
               </button>

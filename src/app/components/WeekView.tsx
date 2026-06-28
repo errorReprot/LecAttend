@@ -113,10 +113,10 @@ export function WeekView({ config, records, onUpdateRecords }: Props) {
   return (
     <div className="min-h-full bg-background pb-4">
       {/* Header */}
-      <div className="bg-primary text-primary-foreground px-4 pt-10 pb-5">
+      <div className="bg-gradient-to-br from-slate-950 via-orange-600 to-orange-500 text-primary-foreground px-4 pt-10 pb-5 shadow-lg shadow-orange-500/15">
         <div className="max-w-md mx-auto">
           <h1 className="text-primary-foreground">Weekly Attendance</h1>
-          <p className="text-sm opacity-70 mt-0.5">Tap any day to view and mark lectures</p>
+          <p className="text-sm opacity-75 mt-0.5">Tap any day to view and mark lectures</p>
           <div className="flex items-center justify-between mt-4">
             <button onClick={prevWeek} className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition-colors">
               <ChevronLeft size={18} />
@@ -163,12 +163,12 @@ export function WeekView({ config, records, onUpdateRecords }: Props) {
 
           return (
             <div key={dateStr}
-              className={`rounded-xl border overflow-hidden bg-card transition-colors ${isToday ? 'border-primary' : 'border-border'}`}>
+              className={`rounded-xl border overflow-hidden bg-card/90 backdrop-blur-sm shadow-sm transition-colors ${isToday ? 'border-primary shadow-orange-500/10' : 'border-border'}`}>
 
               {/* Day header row */}
               <button className="w-full flex items-center justify-between p-3.5 text-left"
                 onClick={() => setExpandedDay(isExpanded ? null : dateStr)}>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   {/* Day color dot */}
                   <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
                     isToday ? 'bg-primary' :
@@ -181,9 +181,7 @@ export function WeekView({ config, records, onUpdateRecords }: Props) {
                         style={{ fontWeight: isToday ? 600 : 400 }}>
                         {shortLabel}
                       </span>
-                      {isToday && (
-                        <span className="text-xs bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full">Today</span>
-                      )}
+                      {isToday && <span className="text-xs bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full shadow-sm">Today</span>}
                     </div>
                     {/* Summary line */}
                     <div className="flex items-center gap-2 mt-0.5 flex-wrap">
