@@ -36,7 +36,7 @@ jobs:
 
       - name: Sync Capacitor
         run: |
-              npm install @capacitor/cli @capacitor/core @capacitor/android
+              npm install @capacitor/cli @capacitor/core @capacitor/android typescript
               ./node_modules/.bin/cap sync android
 
       - name: Build debug APK
