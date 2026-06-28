@@ -39,7 +39,11 @@ jobs:
           yes | sdkmanager --licenses
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
+
+      - name: Ensure node binaries are executable
+        run: |
+          chmod +x node_modules/.bin/* || true
 
       - name: Build web app
         run: npm run build
