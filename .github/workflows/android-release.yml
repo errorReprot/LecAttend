@@ -35,7 +35,9 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Sync Capacitor
-        run: ./node_modules/.bin/cap sync android
+        run: |
+              npm install @capacitor/cli @capacitor/core @capacitor/android
+              ./node_modules/.bin/cap sync android
 
       - name: Build debug APK
         run: cd android && ./gradlew assembleDebug
